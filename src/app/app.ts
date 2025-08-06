@@ -1,22 +1,20 @@
 import { Component } from '@angular/core';
 import { Header } from './header/header';
 import { UserInput } from './user-input/user-input';
+import { InvestmentResults } from './investment-results/investment-results';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, UserInput],
+  imports: [Header, UserInput, InvestmentResults],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  resultData?: InvestmentResulType[];
+
   //Calculation will be handled in the UserInput component
   //and results will be emitted to this component
-  onCalculateInvestmentResults(data: {
-    initialInvestment: number,
-    annualInvestment: number,
-    expectedReturn: number,
-    duration: number
-  }) {
+  onCalculateInvestmentResults(data: InvestmentInput) {
     const { initialInvestment, annualInvestment, expectedReturn, duration } = data;
     const annualData = [];
     let investmentValue = initialInvestment;
@@ -36,9 +34,7 @@ export class App {
         totalAmountInvested: initialInvestment + annualInvestment * year,
       });
     }
-
-    console.log('Investment Results:', annualData);
-    // Here you can emit the annualData to a service or component to display it
+    this.resultData = annualData;
    // return annualData;
   }
 }
